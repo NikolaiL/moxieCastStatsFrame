@@ -2,12 +2,12 @@
 
 import dynamic from "next/dynamic";
 
-const Demo = dynamic(() => import("~/components/Demo"), {
+const CastEarningStats = dynamic(() => import("~/components/CastEarningStats"), {
   ssr: false,
 });
 
 export default function App(
-  { title }: { title?: string } = { title: "Frames v2 Demo" }
+  { title }: { title?: string } = { title: "Cast Earning Stats" }
 ) {
-  return <Demo title={title} />;
+  return <CastEarningStats title={title} />;
 }

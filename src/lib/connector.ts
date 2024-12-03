@@ -29,6 +29,8 @@ export function frameConnector() {
 
       connected = true;
 
+      if (!accounts) return [];
+
       return {
         accounts: accounts.map((x) => getAddress(x)),
         chainId: currentChainId,
@@ -43,11 +45,13 @@ export function frameConnector() {
       const accounts = await provider.request({
         method: "eth_requestAccounts",
       });
+      if (!accounts) return [];
       return accounts.map((x) => getAddress(x));
     },
     async getChainId() {
       const provider = await this.getProvider();
       const hexChainId = await provider.request({ method: "eth_chainId" });
+      if (!hexChainId) return 137;
       return fromHex(hexChainId, "number");
     },
     async isAuthorized() {
