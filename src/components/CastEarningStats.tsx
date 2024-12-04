@@ -37,7 +37,7 @@ interface CastEarningStatsProps {
   title?: string;
 }
 
-export default function CastEarningStats({ title = "Cast Earning Stats" }: CastEarningStatsProps) {
+export default function CastEarningStats({ title = "Cast Earning Stats by @nikolaiii" }: CastEarningStatsProps) {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
 
@@ -200,7 +200,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats" }: CastE
           </div>
           {isSendTxError && renderError(sendTxError)}
             {txHash && (
-              <div className="mt-2 text-xs">
+              <div className="mt-2 text-xs overflow-x-hidden">
                 <div>Hash: {truncateAddress(txHash)}</div>
                 <div>
                   Status:{" "}
@@ -255,8 +255,8 @@ export default function CastEarningStats({ title = "Cast Earning Stats" }: CastE
                 </tr>
               ))}
             </tbody>
-          </table>
-          <div>{title}</div>
+          </table>   
+          <div className="px-4 py-2 text-center text-sm text-gray-500 w-full">{title}</div>
         </div>
       )}
     </div>
