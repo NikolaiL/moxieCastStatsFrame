@@ -69,11 +69,11 @@ export default function CastEarningStats({ title = "Cast Earning Stats" }: CastE
 
   const sendTx = useCallback(() => {
     const amount = BigInt(100n * 10n ** 18n); // 100 DEGEN with 18 decimals
-    const data = `0xa9059cbb000000000000000000000000909A24643089b0b64D7150573951AB47b8eba8E1${amount.toString(16).padStart(64, '0')}`;
+    const data = `0xa9059cbb000000000000000000000000909A24643089b0b64D7150573951AB47b8eba8E1${amount.toString(16).padStart(64, '0')}` as `0x${string}`;
     
     sendTransaction(
       {
-        to: "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed", // DEGEN token contract
+        to: "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed" as `0x${string}`, // DEGEN token contract
         data: data,
       },
       {
@@ -82,7 +82,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats" }: CastE
         },
       }
     );
-  }, []);
+  }, [sendTransaction]);
 
   useEffect(() => {
     const load = async () => {
@@ -213,7 +213,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats" }: CastE
           )}
         </div>      
 
-      <h2 className="text-2xl font-black mt-2 px-2">{title}</h2>
+      <h2 className="text-2xl font-black mt-2 px-2">Casts Ⓜ️ Earning Stats</h2>
       
       {isContentLoading ? (
         <div className="flex justify-center p-4 mt-12">
