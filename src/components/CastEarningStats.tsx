@@ -65,6 +65,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats" }: CastE
 
   const openFollowUrl = useCallback(() => {
     sdk.actions.openUrl("https://www.warpcast.com/nikolaiii");
+    sdk.actions.close();
   }, []);
 
   const sendTx = useCallback(() => {
