@@ -24,13 +24,10 @@ export default async function Image() {
   return new ImageResponse(
     (
       <div
-        tw="h-full w-full text-white flex flex-col justify-center items-center relative"
-        style={{
-          backgroundImage: `url(${process.env.NEXT_PUBLIC_URL}/bg.png)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+        tw="h-full w-full bg-purple-900 text-white flex flex-col justify-center items-center relative"
       >
+        <h1 tw="text-5xl font-bold">Casts Ⓜ️ Earnings Stats</h1>
+        <h3 tw="mt-4 text-3xl">by <span tw="ml-2 text-fuchsia-400 font-bold"> @nikolaiii</span></h3>
         <p tw="absolute bottom-0 opacity-40">{currentDate} UTC</p>
       </div>
     ),
