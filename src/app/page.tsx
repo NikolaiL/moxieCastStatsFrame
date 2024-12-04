@@ -7,13 +7,13 @@ const frame = {
   version: "next",
   imageUrl: `${appUrl}/opengraph-image`,
   button: {
-    title: "Launch Frame",
+    title: "See My Ⓜ️ Earnings",
     action: {
       type: "launch_frame",
-      name: "Farcaster Frames v2 Demo",
+      name: "Casts Ⓜ️ Earning Stats",
       url: appUrl,
       splashImageUrl: `${appUrl}/splash.png`,
-      splashBackgroundColor: "#f7f7f7",
+      splashBackgroundColor: "#581C87",
     },
   },
 };
@@ -22,10 +22,10 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Farcaster Frames v2 Demo",
+    title: "Casts Ⓜ️ Earning Stats",
     openGraph: {
-      title: "Farcaster Frames v2 Demo",
-      description: "A Farcaster Frames v2 demo app.",
+      title: "Casts Ⓜ️ Earning Stats",
+      description: "Track the Moxie Earnings of Your Latest Casts",
     },
     other: {
       "fc:frame": JSON.stringify(frame),

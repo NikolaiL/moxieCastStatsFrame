@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         hostname: 'imagedelivery.net',
         pathname: '**/*',
       },
+      {
+        protocol: 'https',
+        hostname: 'warpcast.com',
+        pathname: '**/*',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.gravatar.com',
+        pathname: '**/*',
+      },
     ],
   },
 };

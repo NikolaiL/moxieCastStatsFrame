@@ -12,9 +12,9 @@ export async function GET() {
     frame: {
       version: "0.0.0",
       name: "Frames v2 Demo",
-      iconUrl: `${appUrl}/icon.png`,
-      splashImageUrl: `${appUrl}/splash.png`,
-      splashBackgroundColor: "#f7f7f7",
+      iconUrl: `${appUrl}/altumbase.png`,
+      splashImageUrl: `${appUrl}/altumbase.png`,
+      splashBackgroundColor: "#581C87",
       homeUrl: appUrl,
     },
   };

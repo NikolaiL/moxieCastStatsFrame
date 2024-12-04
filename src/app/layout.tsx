@@ -4,8 +4,8 @@ import "~/app/globals.css";
 import { Providers } from "~/app/providers";
 
 export const metadata: Metadata = {
-  title: "Farcaster Frames v2 Demo",
-  description: "A Farcaster Frames v2 demo app",
+  title: "Casts Ⓜ️ Earning Stats",
+  description: "Track the Moxie Earnings of Your Latest Casts",
 };
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-white dark:bg-gray-900">
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         name: "Farcaster Frames v2 Demo",
         url: `${appUrl}/frames/hello/${name}/`,
         splashImageUrl: `${appUrl}/splash.png`,
-        splashBackgroundColor: "#f7f7f7",
+        splashBackgroundColor: "#581C87",
       },
     },
   };
