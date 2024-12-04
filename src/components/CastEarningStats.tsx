@@ -31,7 +31,7 @@ interface QueryResponse {
   };
 }
 
-import { config } from "~/components/providers/WagmiProvider";
+// import { config } from "~/components/providers/WagmiProvider";
 
 export default function CastEarningStats() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
@@ -42,7 +42,8 @@ export default function CastEarningStats() {
 
   const [txHash, setTxHash] = useState<string | null>(null);
   
-  const { address, isConnected } = useAccount();
+  //const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
   const [isContentLoading, setIsContentLoading] = useState(false);
 
@@ -60,10 +61,6 @@ export default function CastEarningStats() {
 
   const openFollowUrl = useCallback(() => {
     sdk.actions.openUrl("https://www.warpcast.com/nikolaiii");
-  }, []);
-
-  const openWarpcastUrl = useCallback(() => {
-    sdk.actions.openUrl("https://warpcast.com/~/compose");
   }, []);
 
   const sendTx = useCallback(() => {
