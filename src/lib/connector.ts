@@ -15,11 +15,11 @@ export function frameConnector() {
     async setup() {
       this.connect({ chainId: config.chains[0].id });
     },
-    async connect({ chainId } = {}) {
+    async connect({ chainId } = {}): Promise<{ accounts: readonly `0x${string}`[]; chainId: number }> {
       const provider = await this.getProvider();
       const accounts = await provider.request({
         method: "eth_requestAccounts",
-      });
+      }) as `0x${string}`[];
 
       let currentChainId = await this.getChainId();
       if (chainId && currentChainId !== chainId) {
@@ -29,7 +29,12 @@ export function frameConnector() {
 
       connected = true;
 
-      if (!accounts) return [];
+      if (!accounts) {
+        return {
+          accounts: [],
+          chainId: currentChainId,
+        };
+      }
 
       return {
         accounts: accounts.map((x) => getAddress(x)),

@@ -255,6 +255,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats" }: CastE
               ))}
             </tbody>
           </table>
+          <div>{title}</div>
         </div>
       )}
     </div>
