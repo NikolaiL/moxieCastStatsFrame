@@ -1,4 +1,6 @@
-# 🖼️ frames-v2-demo
+# Moxie Casts Rewards Frame
+
+# Based on : 🖼️ frames-v2-demo
 
 A Farcaster Frames v2 demo app.
 
