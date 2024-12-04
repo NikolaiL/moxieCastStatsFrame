@@ -33,7 +33,11 @@ interface QueryResponse {
 
 // import { config } from "~/components/providers/WagmiProvider";
 
-export default function CastEarningStats() {
+interface CastEarningStatsProps {
+  title?: string;
+}
+
+export default function CastEarningStats({ title = "Cast Earning Stats" }: CastEarningStatsProps) {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
 
@@ -209,7 +213,7 @@ export default function CastEarningStats() {
           )}
         </div>      
 
-      <h2 className="text-2xl font-black mt-2 px-2">Casts Ⓜ️ Earning Stats</h2>
+      <h2 className="text-2xl font-black mt-2 px-2">{title}</h2>
       
       {isContentLoading ? (
         <div className="flex justify-center p-4 mt-12">
