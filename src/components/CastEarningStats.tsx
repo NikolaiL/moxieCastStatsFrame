@@ -12,7 +12,6 @@ import { Button } from "~/components/ui/Button";
 import { truncateAddress } from "~/lib/truncateAddress";
 
 
-
 interface Cast {
   castedAtTimestamp: string;
   text: string;
@@ -159,6 +158,13 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
+  
+    // Check for user rejection message in the error details
+    if (error.message.includes("User rejected")) {
+      return <div className="text-red-500 text-xs mt-1">User Rejected</div>;
+    }
+  
+    // For other errors, show the full message
     return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
   };
 
@@ -199,17 +205,17 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
               </Button>
           </div>
           {isSendTxError && renderError(sendTxError)}
-            {txHash && (
-              <div className="mt-2 text-xs overflow-x-hidden">
-                <div>Hash: {truncateAddress(txHash)}</div>
-                <div>
-                  Status:{" "}
-                  {isConfirming
-                    ? "Confirming..."
-                    : isConfirmed
-                    ? "Confirmed! Thank you for Your Support!"
-                    : "Pending"}
-                </div>
+          {txHash && (
+            <div className="mt-2 text-xs overflow-x-hidden">
+              <div>Hash: {truncateAddress(txHash)}</div>
+              <div>
+                Status:{" "}
+                {isConfirming
+                  ? "Confirming..."
+                  : isConfirmed
+                  ? "Confirmed! Thank you for Your Support!"
+                  : "Pending"}
+              </div>
             </div>
           )}
         </div>      
