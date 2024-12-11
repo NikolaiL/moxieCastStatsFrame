@@ -20,12 +20,15 @@ interface Cast {
   socialCapitalValue: {
     formattedValue: string;
   };
+  degenTips?: DegenTip[];
+  totalDegenTips?: number | null;
 }
 
 interface QueryResponse {
   data: {
     FarcasterCasts: {
       Cast: Cast[];
+      pageInfo: PageInfo;
     };
   };
 }
@@ -36,12 +39,33 @@ interface CastEarningStatsProps {
   title?: string;
 }
 
+interface DegenTip {
+  snapshot_day: string;
+  timestamp: string;
+  cast_hash: string;
+  cast_parent_hash: string;
+  fid: string;
+  recipient_fid: string;
+  tip_status: string;
+  tip_type: string;
+  tip_amount: string;
+  rolling_daily_tip_amount: string;
+  tip_allowance: string;
+}
+
+// Add interface for page info
+interface PageInfo {
+  hasNextPage: boolean;
+  nextCursor: string;
+}
+
 export default function CastEarningStats({ title = "Cast Earning Stats by @nikolaiii" }: CastEarningStatsProps) {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
 
   const [casts, setCasts] = useState<Cast[]>([]);
   const [moxieRate, setMoxieRate] = useState<number | null>(null);
+  const [degenRate, setDegenRate] = useState<number | null>(null);
 
   const [txHash, setTxHash] = useState<string | null>(null);
   
@@ -95,49 +119,102 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
     }
   }, [isSDKLoaded]);
 
-  useEffect(() => {
-    const fetchCasts = async () => {
-      const fid = context?.user.fid;
+  // Add state for cursor and hasNextPage
+  const [nextCursor, setNextCursor] = useState<string>("");
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-      if (!fid) return;
-      
+  // Function to fetch casts with pagination
+  const fetchCasts = useCallback(async (cursor: string = "") => {
+    const fid = context?.user.fid;
+    if (!fid) return;
+    
+    const isInitialLoad = cursor === "";
+    if (isInitialLoad) {
       setIsContentLoading(true);
-      try {
-        const response = await fetch('https://api.airstack.xyz/graphql', {
-          method: 'POST',
-          headers: {
-            'Authorization': '1b51d9a58bf6a4ae7822bf9aadffb2e32',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            query: `
-              query GetLatestCastsForUser {
-                FarcasterCasts(
-                  input: {blockchain: ALL, filter: {castedBy: {_eq: "fc_fid:${fid}"}}, limit: 20}
-                ) {
-                  Cast {
-                    castedAtTimestamp
-                    text
-                    hash
-                    url
-                    socialCapitalValue {
-                      formattedValue
-                    }
+    } else {
+      setIsLoadingMore(true);
+    }
+
+    try {
+      const response = await fetch('https://api.airstack.xyz/graphql', {
+        method: 'POST',
+        headers: {
+          'Authorization': '1b51d9a58bf6a4ae7822bf9aadffb2e32',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            query GetLatestCastsForUser {
+              FarcasterCasts(
+                input: {blockchain: ALL, filter: {castedBy: {_eq: "fc_fid:${fid}"}}, limit: 20, cursor: "${cursor}"}
+              ) {
+                Cast {
+                  castedAtTimestamp
+                  text
+                  hash
+                  url
+                  socialCapitalValue {
+                    formattedValue
                   }
                 }
+                pageInfo {
+                  hasNextPage
+                  nextCursor
+                }
               }
-            `
-          }),
-        });
-        const data: QueryResponse = await response.json();
-        setCasts(data.data.FarcasterCasts.Cast);
-      } finally {
+            }
+          `
+        }),
+      });
+      const data: QueryResponse = await response.json();
+      
+      const newCasts = data.data.FarcasterCasts.Cast.map(cast => ({ ...cast, degenTips: [], totalDegenTips: null }));
+      
+      // Update pagination info
+      setHasNextPage(data.data.FarcasterCasts.pageInfo.hasNextPage);
+      setNextCursor(data.data.FarcasterCasts.pageInfo.nextCursor);
+
+      // Append new casts to existing ones
+      setCasts(prev => cursor === "" ? newCasts : [...prev, ...newCasts]);
+    } finally {
+      if (isInitialLoad) {
         setIsContentLoading(false);
+      } else {
+        setIsLoadingMore(false);
+      }
+    }
+  }, [context?.user.fid]);
+
+  // Initial load
+  useEffect(() => {
+    if (context?.user.fid) {
+      fetchCasts();
+    }
+  }, [context?.user.fid, fetchCasts]);
+
+  // Intersection Observer for infinite scrolling
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isLoadingMore && !isContentLoading) {
+          fetchCasts(nextCursor);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    const loadMoreTrigger = document.getElementById('load-more-trigger');
+    if (loadMoreTrigger) {
+      observer.observe(loadMoreTrigger);
+    }
+
+    return () => {
+      if (loadMoreTrigger) {
+        observer.unobserve(loadMoreTrigger);
       }
     };
-
-    fetchCasts();
-  }, [context?.user.fid]);
+  }, [hasNextPage, nextCursor, isLoadingMore, isContentLoading, fetchCasts]);
 
   const fetchMoxieRate = async () => {
     try {
@@ -150,23 +227,92 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
     }
   };
 
+  const fetchDegenRate = async () => {
+    try {
+      const response = await fetch('https://base.blockscout.com/api/v2/search?q=0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed');
+      const data = await response.json();
+      const rate = data.items[0]?.exchange_rate;
+      setDegenRate(rate);
+    } catch (error) {
+      console.error('Error fetching DEGEN rate:', error);
+    }
+  };
+
   useEffect(() => {
     fetchMoxieRate();
-    const interval = setInterval(fetchMoxieRate, 5 * 60 * 1000);
+    fetchDegenRate();
+    const interval = setInterval(() => {
+      fetchMoxieRate();
+      fetchDegenRate();
+    }, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
-  
+
     // Check for user rejection message in the error details
     if (error.message.includes("User rejected")) {
       return <div className="text-red-500 text-xs mt-1">User Rejected</div>;
     }
-  
+
     // For other errors, show the full message
     return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
   };
+
+  // Add this with the other state declarations at the top of the component
+  const [isLoadingDegenTips, setIsLoadingDegenTips] = useState(false);
+
+  // Function to fetch DEGEN tips for a cast
+  const fetchDegenTipsForCasts = useCallback(async (castsToFetch: Cast[]) => {
+    setIsLoadingDegenTips(true);
+    try {
+      const updatedCasts = await Promise.all(
+        castsToFetch.map(async (cast) => {
+          try {
+            const formattedHash = cast.hash.replace('0x', '\\x');
+            const tipsResponse = await fetch(
+              `https://api.degen.tips/airdrop2/tips?limit=500&offset=0&parent_hash=${formattedHash}`
+            );
+            const tips: DegenTip[] = await tipsResponse.json();
+            const totalTips = tips.reduce((acc, tip) => acc + Number(tip.tip_amount), 0);
+            return {
+              ...cast,
+              degenTips: tips,
+              totalDegenTips: totalTips
+            };
+          } catch (error) {
+            console.error('Error fetching tips for cast:', error);
+            return {
+              ...cast,
+              degenTips: [],
+              totalDegenTips: null
+            };
+          }
+        })
+      );
+      setCasts(prevCasts => {
+        const newCasts = [...prevCasts];
+        updatedCasts.forEach(updatedCast => {
+          const index = newCasts.findIndex(c => c.hash === updatedCast.hash);
+          if (index !== -1) {
+            newCasts[index] = updatedCast;
+          }
+        });
+        return newCasts;
+      });
+    } finally {
+      setIsLoadingDegenTips(false);
+    }
+  }, []);
+
+  // Add useEffect to trigger DEGEN tips fetch when new casts are loaded
+  useEffect(() => {
+    const castsWithoutTips = casts.filter(cast => !cast.degenTips || cast.degenTips.length === 0);
+    if (castsWithoutTips.length > 0 && !isLoadingDegenTips) {
+      fetchDegenTipsForCasts(castsWithoutTips);
+    }
+  }, [casts, isLoadingDegenTips, fetchDegenTipsForCasts]);
 
   if (!isSDKLoaded) {
     return <div className="w-full h-full dark:bg-gray-900">Loading...</div>;
@@ -220,7 +366,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           )}
         </div>      
 
-      <h2 className="text-2xl font-black mt-2 px-2">Casts Ⓜ️ Earning Stats</h2>
+      <h2 className="text-2xl font-black mt-2 px-2">Casts Earning Stats</h2>
       
       {isContentLoading ? (
         <div className="flex justify-center p-4 mt-12">
@@ -234,7 +380,12 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                 <th className="text-left p-2">Time</th>
                 <th className="text-left p-2">Cast</th>
                 <th className="text-right p-2 text-nowrap">
-                  Ⓜ️ Earned
+                  $Moxie
+                  <br/>
+                  <span className="text-xs text-gray-500">USD</span>
+                </th>
+                <th className="text-right p-2 text-nowrap">
+                  $Degen
                   <br/>
                   <span className="text-xs text-gray-500">USD</span>
                 </th>
@@ -258,10 +409,41 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                         : '-.--'}
                     </span>
                   </td>
+                  <td className="px-1 text-right text-lg">
+                    {(isLoadingDegenTips && cast.totalDegenTips === null) ? (
+                      <div className="flex justify-end">
+                        <div className="inline-flex gap-1">
+                          <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.3s]"></div>
+                          <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.15s]"></div>
+                          <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce"></div>
+                        </div>
+                      </div>
+                    ) : cast.totalDegenTips && cast.totalDegenTips > 0 ? (
+                      <span>
+                        {Number(cast.totalDegenTips).toFixed(0)}
+                        <br/>
+                        <span className="text-sm text-gray-500">
+                          ${Number(cast.totalDegenTips * (degenRate || 0)).toFixed(2)}
+                        </span>
+                      </span>
+                    ) : (
+                      <span></span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>   
+          
+          {/* Loading trigger for infinite scroll */}
+          <div id="load-more-trigger" className="h-10 w-full">
+            {isLoadingMore && (
+              <div className="flex justify-center p-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-900 dark:border-purple-700"></div>
+              </div>
+            )}
+          </div>
+          
           <div className="px-4 py-2 text-center text-sm text-gray-500 w-full">{title}</div>
         </div>
       )}
