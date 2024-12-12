@@ -10,7 +10,7 @@ export async function GET() {
         "MHhkMTA1NGU5MDA1NWViODczYTI5MDZhNGY0ZDVjYzI2ZGQ0Yzk5NTc3Njc0NzkzMWMzNDhiNzAwZDUwYzZiNDMyNmYzNDk1ODE0NTQzOGYzNmEyNDU1YmNkYmRiZWIyMjY5OWFkMDljNTc4YTI0NzFkM2EzYzFlNzg1NzRhMDE2MTFj",
     },
     frame: {
-      version: "0.0.2",
+      version: "0.0.0",
       name: "Cast Earnings Stats Frame",
       iconUrl: `${appUrl}/altumbase.png`,
       splashImageUrl: `${appUrl}/altumbase.png`,
