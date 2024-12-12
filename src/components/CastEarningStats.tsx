@@ -92,6 +92,13 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
     sdk.actions.close();
   }, []);
 
+  const openShareUrl = useCallback(() => {
+    const shareText = encodeURIComponent("See Your Cast Earnings.\nFrame by @nikolaiii 🚀");
+    const embedUrl = encodeURIComponent("https://moxie-cast-stats-frame.vercel.app/");
+    const shareUrl = `https://warpcast.com/~/compose?text=${shareText}&embeds[]=${embedUrl}`;
+    sdk.actions.openUrl(shareUrl);
+  }, []);
+
   const sendTx = useCallback(() => {
     const amount = BigInt(100n * 10n ** 18n); // 100 DEGEN with 18 decimals
     const data = `0xa9059cbb000000000000000000000000909A24643089b0b64D7150573951AB47b8eba8E1${amount.toString(16).padStart(64, '0')}` as `0x${string}`;
@@ -342,14 +349,24 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
             
           </div>
           <div className="flex flex-row gap-4 mt-2">
-            <button onClick={openFollowUrl} className="flex-1 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md my-1 text-sm">Follow @nikolaiii</button>
+            <Button 
+              onClick={openFollowUrl} 
+              variant="outline"
+              className="flex-1 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md my-1 text-sm">
+              Follow @nikolaiii
+            </Button>
             <Button
                 onClick={sendTx}
                 disabled={!isConnected || isSendTxPending}
                 isLoading={isSendTxPending}
                 className="flex-1 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md my-1 text-sm">
               Send 100 $degen
-              </Button>
+            </Button>
+            <Button
+                onClick={openShareUrl}
+                className="flex-1 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md my-1 text-sm">
+              Share
+            </Button>
           </div>
           {isSendTxError && renderError(sendTxError)}
           {txHash && (
@@ -413,7 +430,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   <td className="px-1 text-right text-lg">
                     {(isLoadingDegenTips && cast.totalDegenTips === null) ? (
                       <div className="flex justify-end">
-                        <div className="flex gap-1">
+                        <div className="animate-pulse flex gap-1">
                           <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.3s]"></div>
                           <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.15s]"></div>
                           <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce"></div>
