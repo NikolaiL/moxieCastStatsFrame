@@ -10,6 +10,7 @@ import Image from "next/image";
 
 import { Button } from "~/components/ui/Button";
 import { truncateAddress } from "~/lib/truncateAddress";
+import { LoadingSpinner } from '~/components/ui/LoadingSpinner';
 
 
 interface Cast {
@@ -369,8 +370,8 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
       <h2 className="text-2xl font-black mt-2 px-2">Casts Earning Stats</h2>
       
       {isContentLoading ? (
-        <div className="flex justify-center p-4 mt-12">
-          <div className="animate-spin rounded-full h-24 w-24 border-b-2 border-purple-900 dark:border-purple-700"></div>
+        <div className="mt-12">
+          <LoadingSpinner size="lg" />
         </div>
       ) : (
         <div className="overflow-x-auto">
@@ -436,15 +437,15 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           </table>   
           
           {/* Loading trigger for infinite scroll */}
-          <div id="load-more-trigger" className="h-10 w-full">
+          <div id="load-more-trigger">
             {isLoadingMore && (
-              <div className="flex justify-center p-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-900 dark:border-purple-700"></div>
+              <div className="flex justify-center">
+                <LoadingSpinner size="md" />
               </div>
             )}
           </div>
           
-          <div className="px-4 py-2 text-center text-sm text-gray-500 w-full">{title}</div>
+          <div className="text-center text-sm text-gray-500 w-full">{title}</div>
         </div>
       )}
     </div>

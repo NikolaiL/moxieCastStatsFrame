@@ -4,14 +4,14 @@ export async function GET() {
   const config = {
     accountAssociation: {
       header:
-        "eyJmaWQiOjM2MjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZFIn0",
-      payload: "eyJkb21haW4iOiJmcmFtZXMtdjIudmVyY2VsLmFwcCJ9",
+        "eyJmaWQiOjM2NjcxMywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDlFOTIxODc5NEI2MDI0QjBFOTJkQjFjZkIzMDY4MDE2NzgwOTIwNDUifQ",
+      payload: "eyJkb21haW4iOiJtb3hpZS1jYXN0LXN0YXRzLWZyYW1lLnZlcmNlbC5hcHAifQ",
       signature:
-        "MHhiNDIwMzQ1MGZkNzgzYTExZjRiOTllZTFlYjA3NmMwOTdjM2JkOTY1NGM2ODZjYjkyZTAyMzk2Y2Q0YjU2MWY1MjY5NjI5ZGQ5NTliYjU0YzEwOGI4OGVmNjdjMTVlZTdjZDc2YTRiMGU5NzkzNzA3YzkxYzFkOWFjNTg0YmQzNjFi",
+        "MHhkMTA1NGU5MDA1NWViODczYTI5MDZhNGY0ZDVjYzI2ZGQ0Yzk5NTc3Njc0NzkzMWMzNDhiNzAwZDUwYzZiNDMyNmYzNDk1ODE0NTQzOGYzNmEyNDU1YmNkYmRiZWIyMjY5OWFkMDljNTc4YTI0NzFkM2EzYzFlNzg1NzRhMDE2MTFj",
     },
     frame: {
-      version: "0.0.0",
-      name: "Frames v2 Demo",
+      version: "0.0.2",
+      name: "Cast Earnings Stats Frame",
       iconUrl: `${appUrl}/altumbase.png`,
       splashImageUrl: `${appUrl}/altumbase.png`,
       splashBackgroundColor: "#581C87",
