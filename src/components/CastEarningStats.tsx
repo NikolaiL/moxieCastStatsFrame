@@ -351,7 +351,6 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           <div className="flex flex-row gap-4 mt-2">
             <Button 
               onClick={openFollowUrl} 
-              variant="outline"
               className="flex-1 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md my-1 text-sm">
               Follow @nikolaiii
             </Button>
