@@ -99,6 +99,13 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
     sdk.actions.openUrl(shareUrl);
   }, []);
 
+  const openTipUrl = useCallback(() => {
+    const shareText = encodeURIComponent("100 $degen");
+    const embedUrl = encodeURIComponent("0xeb54be0d0f94c1f01d4cde36351c86ad8f6f5872");
+    const shareUrl = `https://warpcast.com/~/compose?text=${shareText}&parentCastHash=${embedUrl}`;
+    sdk.actions.openUrl(shareUrl);
+  }, []);
+
   const sendTx = useCallback(() => {
     const amount = BigInt(100n * 10n ** 18n); // 100 DEGEN with 18 decimals
     const data = `0xa9059cbb000000000000000000000000909A24643089b0b64D7150573951AB47b8eba8E1${amount.toString(16).padStart(64, '0')}` as `0x${string}`;
@@ -360,6 +367,11 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                 isLoading={isSendTxPending}
                 className="flex-1 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md my-1 text-sm">
               Send 100 $degen
+            </Button>
+            <Button
+                onClick={openTipUrl}
+                className="flex-1 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md my-1 text-sm">
+              Tip 100 $degen
             </Button>
             <Button
                 onClick={openShareUrl}
