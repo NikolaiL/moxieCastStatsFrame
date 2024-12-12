@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Casts Ⓜ️ Earning Stats";
+export const alt = "Casts Earnings Stats";
 export const size = {
   width: 600,
   height: 400,

@@ -4,8 +4,8 @@ import "~/app/globals.css";
 import { Providers } from "~/app/providers";
 
 export const metadata: Metadata = {
-  title: "Casts Ⓜ️ Earning Stats",
-  description: "Track the Moxie Earnings of Your Latest Casts",
+  title: "Casts Earnings Stats",
+  description: "Track the $Moxie and $Degen Earnings of Your Latest Casts",
 };
 
 export default function RootLayout({
