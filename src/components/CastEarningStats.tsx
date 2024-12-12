@@ -290,7 +290,9 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
               `https://api.degen.tips/airdrop2/tips?limit=500&offset=0&parent_hash=${formattedHash}`
             );
             const tips: DegenTip[] = await tipsResponse.json();
-            const totalTips = tips.reduce((acc, tip) => acc + Number(tip.tip_amount), 0);
+            const totalTips = tips
+              .filter(tip => tip.tip_status === "valid")
+              .reduce((acc, tip) => acc + Number(tip.tip_amount), 0);
             return {
               ...cast,
               degenTips: tips,
