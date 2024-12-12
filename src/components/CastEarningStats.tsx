@@ -321,7 +321,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
 
   return (
     <div className="w-full mx-auto py-4 px-4 relative dark:bg-gray-900">
-        <div className="sticky top-0 left-0 right-0 px-2 pt-4 pb-1 bg-white dark:bg-gray-900">
+        <div className="sticky top-0 left-0 right-0 px-2 pt-4 pb-1 bg-white dark:bg-gray-900 z-10">
           <div className="flex items-center gap-2">
             <Image 
               src={context?.user.pfpUrl ?? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'} 
@@ -374,7 +374,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           <LoadingSpinner size="lg" />
         </div>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto relative">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-200 dark:border-gray-700">
@@ -413,7 +413,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   <td className="px-1 text-right text-lg">
                     {(isLoadingDegenTips && cast.totalDegenTips === null) ? (
                       <div className="flex justify-end">
-                        <div className="inline-flex gap-1">
+                        <div className="flex gap-1">
                           <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.3s]"></div>
                           <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.15s]"></div>
                           <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce"></div>
