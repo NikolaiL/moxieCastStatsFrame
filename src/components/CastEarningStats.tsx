@@ -355,28 +355,30 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
             </div>
             
           </div>
-          <div className="flex flex-row gap-4 mt-2">
+          <div className="flex flex-row gap-2 mt-2">
             <Button 
               onClick={openFollowUrl} 
-              className="flex-1 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md my-1 text-sm">
+              className="basis-1/2 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md text-sm">
               Follow @nikolaiii
             </Button>
+            <Button
+                onClick={openShareUrl}
+                className="basis-1/2 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
+              Share
+            </Button>
+          </div>
+          <div className="flex flex-row gap-2 mt-2">
             <Button
                 onClick={sendTx}
                 disabled={!isConnected || isSendTxPending}
                 isLoading={isSendTxPending}
-                className="flex-1 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md my-1 text-sm">
+                className="basis-1/2 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Send 100 $degen
             </Button>
             <Button
                 onClick={openTipUrl}
-                className="flex-1 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md my-1 text-sm">
+                className="basis-1/2 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Tip 100 $degen
-            </Button>
-            <Button
-                onClick={openShareUrl}
-                className="flex-1 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md my-1 text-sm">
-              Share
             </Button>
           </div>
           {isSendTxError && renderError(sendTxError)}
