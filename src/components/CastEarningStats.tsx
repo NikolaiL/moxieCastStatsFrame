@@ -367,7 +367,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
               Share
             </Button>
           </div>
-          <div className="flex flex-row gap-2 mt-2">
+          <div className="flex flex-row gap-2 mt-2 pb-4">
             <Button
                 onClick={sendTx}
                 disabled={!isConnected || isSendTxPending}
