@@ -155,7 +155,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
       const response = await fetch('https://api.airstack.xyz/graphql', {
         method: 'POST',
         headers: {
-          'Authorization': '1b51d9a58bf6a4ae7822bf9aadffb2e32',
+          'Authorization': process.env.NEXT_AIRSTACK_API_KEY || '',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -379,6 +379,36 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
     }
   }, []);
 
+  // Add new state for following status
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isCheckingFollow, setIsCheckingFollow] = useState(true);
+
+  // Add function to check follow status
+  const checkFollowStatus = useCallback(async (userFid: number) => {
+    try {
+      const response = await fetch(
+        `http://65.108.239.240:2281/v1/linkById?fid=${userFid}&target_fid=366713&link_type=follow`
+      );
+      const data = await response.json();
+      
+      // If we get a successful response with MESSAGE_TYPE_LINK_ADD, user is following
+      setIsFollowing(data.data?.type === "MESSAGE_TYPE_LINK_ADD");
+      console.log('Following: ', data.data?.type);
+    } catch (error) {
+      console.error('Error checking follow status:', error);
+      setIsFollowing(false);
+    } finally {
+      setIsCheckingFollow(false);
+    }
+  }, []);
+
+  // Check follow status when context (user) changes
+  useEffect(() => {
+    if (context?.user.fid) {
+      checkFollowStatus(context.user.fid);
+    }
+  }, [context?.user.fid, checkFollowStatus]);
+
   if (!isSDKLoaded) {
     return <div className="w-full h-full dark:bg-gray-900">Loading...</div>;
   }
@@ -408,8 +438,23 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           <div className="flex flex-row gap-2 mt-2">
             <Button 
               onClick={openFollowUrl} 
-              className="hover:bg-purple-200 dark:hover:bg-gray-800 basis-1/2 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md text-sm">
-              Follow @nikolaiii
+              disabled={isFollowing}
+              className={`hover:bg-purple-200 dark:hover:bg-gray-800 basis-1/2 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md text-sm ${
+                isFollowing ? 'opacity-50 cursor-not-allowed' : ''
+              }`}>
+              {isCheckingFollow ? (
+                <div className="flex justify-center">
+                  <div className="animate-pulse flex gap-1">
+                    <div className="w-1 h-1 rounded-full bg-purple-500 animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-1 h-1 rounded-full bg-purple-500 animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-1 h-1 rounded-full bg-purple-500 animate-bounce"></div>
+                  </div>
+                </div>
+              ) : isFollowing ? (
+                'Thank you for Following'
+              ) : (
+                'Follow @nikolaiii'
+              )}
             </Button>
             <Button
                 onClick={openShareUrl}
