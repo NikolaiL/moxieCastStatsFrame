@@ -12,7 +12,7 @@ const frame = {
       type: "launch_frame",
       name: "Farcaster Frames v2 Demo",
       url: `${appUrl}/frames/hello/`,
-      splashImageUrl: `${appUrl}/altumbase.png`,
+      splashImageUrl: `${appUrl}/splash.png`,
       splashBackgroundColor: "#581C87",
     },
   },
