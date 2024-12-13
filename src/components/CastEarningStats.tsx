@@ -217,7 +217,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
         }
       },
       { 
-        rootMargin: '200px', // Load when element is 100px below viewport
+        rootMargin: '300px', // Load when element is 100px below viewport
         threshold: 0
       }
     );
