@@ -360,12 +360,12 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           <div className="flex flex-row gap-2 mt-2">
             <Button 
               onClick={openFollowUrl} 
-              className="basis-1/2 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md text-sm">
+              className="hover:bg-purple-200 dark:hover:bg-gray-800 basis-1/2 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md text-sm">
               Follow @nikolaiii
             </Button>
             <Button
                 onClick={openShareUrl}
-                className="basis-1/2 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
+                className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Share
             </Button>
           </div>
@@ -374,12 +374,12 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                 onClick={sendTx}
                 disabled={!isConnected || isSendTxPending}
                 isLoading={isSendTxPending}
-                className="basis-1/2 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
+                className="basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Send 100 $degen
             </Button>
             <Button
                 onClick={openTipUrl}
-                className="basis-1/2 w-full bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
+                className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Tip 100 $degen
             </Button>
           </div>
