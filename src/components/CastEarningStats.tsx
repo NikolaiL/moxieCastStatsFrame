@@ -334,6 +334,34 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
     }
   }, [casts, isLoadingDegenTips, fetchDegenTipsForCasts]);
 
+  const [addFrameResult, setAddFrameResult] = useState("");
+
+  const addFrame = useCallback(async () => {
+    try {
+      if (!sdk?.actions?.addFrame) {
+        setAddFrameResult("SDK not initialized properly");
+        return;
+      }
+
+      const result = await sdk.actions.addFrame();
+
+      if (result.added) {
+        if (result.notificationDetails) {
+          setAddFrameResult(
+            `Added with notifications enabled`
+          );
+        } else {
+          setAddFrameResult("Added successfully");
+        }
+      } else {
+        setAddFrameResult(`Not added: ${result.reason}`);
+      }
+    } catch (error) {
+      console.error('Error adding frame:', error);
+      setAddFrameResult(`Error: ${error}`);
+    }
+  }, []);
+
   if (!isSDKLoaded) {
     return <div className="w-full h-full dark:bg-gray-900">Loading...</div>;
   }
@@ -371,6 +399,12 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                 className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Share
             </Button>
+            <Button
+              onClick={addFrame}
+              className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm"
+            >
+              Add Frame
+            </Button>
           </div>
           <div className="flex flex-row gap-2 mt-2 pb-4">
             <Button
@@ -398,6 +432,11 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   ? "Confirmed! Thank you for Your Support!"
                   : "Pending"}
               </div>
+            </div>
+          )}
+          {addFrameResult && (
+            <div className="text-sm text-center mt-2 text-gray-600 dark:text-gray-400">
+              {addFrameResult}
             </div>
           )}
         </div>      
