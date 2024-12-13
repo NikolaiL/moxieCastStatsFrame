@@ -12,8 +12,8 @@ export async function GET() {
     frame: {
       version: "0.0.0",
       name: "Cast Earnings Stats Frame",
-      iconUrl: `${appUrl}/altumbase.png`,
-      splashImageUrl: `${appUrl}/altumbase.png`,
+      iconUrl: `${appUrl}/icon.png`,
+      splashImageUrl: `${appUrl}/splash.png`,
       splashBackgroundColor: "#581C87",
       homeUrl: appUrl,
     },
