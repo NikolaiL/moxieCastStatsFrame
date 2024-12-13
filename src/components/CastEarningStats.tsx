@@ -216,7 +216,10 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           fetchCasts(nextCursor);
         }
       },
-      { threshold: 0.5 }
+      { 
+        rootMargin: '100px', // Load when element is 100px below viewport
+        threshold: 0
+      }
     );
 
     const loadMoreTrigger = document.getElementById('load-more-trigger');
@@ -374,7 +377,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                 onClick={sendTx}
                 disabled={!isConnected || isSendTxPending}
                 isLoading={isSendTxPending}
-                className="basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
+                className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Send 100 $degen
             </Button>
             <Button
