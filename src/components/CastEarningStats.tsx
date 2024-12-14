@@ -386,14 +386,38 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
   // Add function to check follow status
   const checkFollowStatus = useCallback(async (userFid: number) => {
     try {
-      const response = await fetch(
-        `http://65.108.239.240:2281/v1/linkById?fid=${userFid}&target_fid=366713&link_type=follow`
-      );
+      const response = await fetch('https://api.airstack.xyz/graphql', {
+        method: 'POST',
+        headers: {
+          'Authorization': process.env.NEXT_AIRSTACK_API_KEY || '',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            query CheckFollowing {
+              SocialFollowings(
+                input: {
+                  filter: {
+                    followingProfileId: {_eq: "366713"},
+                    followerProfileId: {_eq: "${userFid}"}
+                  },
+                  blockchain: ALL
+                }
+              ) {
+                Following {
+                  followingProfileId
+                }
+              }
+            }
+          `
+        }),
+      });
+      
       const data = await response.json();
       
-      // If we get a successful response with MESSAGE_TYPE_LINK_ADD, user is following
-      setIsFollowing(data.data?.type === "MESSAGE_TYPE_LINK_ADD");
-      console.log('Following: ', data.data?.type);
+      // Check if Following array exists and has items
+      setIsFollowing(!!data.data?.SocialFollowings?.Following?.length || userFid === 366713);
+      console.log('Following status:', !!data.data?.SocialFollowings?.Following?.length);
     } catch (error) {
       console.error('Error checking follow status:', error);
       setIsFollowing(false);
@@ -422,7 +446,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
               alt={context?.user.username ?? ''} 
               width={80} 
               height={80}
-              className="flex-none rounded-full" 
+              className="flex-none rounded-full w-[80px] h-[80px] object-cover" 
             />
             <div className="flex-1 flex-col gap-0">
                 <div className="text-2xl font-bold m-0">
@@ -451,7 +475,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   </div>
                 </div>
               ) : isFollowing ? (
-                'Thank you for Following'
+                'Thank you for Following! 🙏'
               ) : (
                 'Follow @nikolaiii'
               )}

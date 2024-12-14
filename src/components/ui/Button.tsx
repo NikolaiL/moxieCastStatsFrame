@@ -6,7 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({ children, className = "", isLoading = false, ...props }: ButtonProps) {
   return (
     <button
-      className={`transition-all w-full max-w-xs mx-auto block py-2 px-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#7C65C1] ${className}`}
+      className={`transition-all w-full max-w-xs mx-auto block py-2 px-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       {...props}
     >
       {isLoading ? (
