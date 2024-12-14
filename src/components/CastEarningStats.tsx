@@ -475,7 +475,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   </div>
                 </div>
               ) : isFollowing ? (
-                'Thank you for Following! 🙏'
+                'Thank you for Following!'
               ) : (
                 'Follow @nikolaiii'
               )}
