@@ -459,7 +459,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 text-xs">
+            <div className="mt-1 absolute right-0 top-0 flex flex-col gap-2 text-xs">
               {isCheckingFollow ? (
                 <div className="flex justify-center p-1">
                   <LoadingDots color="purple" />
@@ -498,7 +498,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
           </div>
 
           {/* DEGEN buttons */}
-          <div className="flex flex-row gap-2 mt-2 pb-4">
+          <div className="flex flex-row gap-2 mt-6 pb-4">
             <Button
               onClick={sendTx}
               disabled={!isConnected || isSendTxPending}
