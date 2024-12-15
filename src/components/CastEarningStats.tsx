@@ -463,19 +463,19 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
 
             <div className="mt-1 absolute right-0 top-0 flex flex-col gap-1 text-xs">
               {isCheckingFollow ? (
-                <div className="flex justify-center p-3">
+                <div className="flex justify-end p-3 h-6">
                   <LoadingDots className="bg-purple-500" />
                 </div>
               ) : isFollowing ? (
-                <div className="text-purple-900 p-1 dark:text-purple-500">
+                <div className="text-purple-900 p-1 dark:text-purple-500 h-6">
                   Thank you for following!
                 </div>
               ) : (
                 <button
                   onClick={openFollowUrl}
-                  className="flex flex-row-reverse gap-1 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
+                  className="flex flex-row-reverse gap-1 p-1 h-6 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
                 >
-                  <UserPlusIcon className="h-5 w-5" /><span className="mt-[2px]">Follow</span>
+                  <UserPlusIcon className="h-4 w-4" /><span className="mt-px">Follow</span>
                 </button>
               )}
 
@@ -486,15 +486,15 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   isFrameAdded ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                <PlusCircleIcon className="h-5 w-5" />
-                <span className="mt-[2px]">{isFrameAdded ? 'Frame Added' : 'Add Frame'}</span>
+                <PlusCircleIcon className="h-4 w-4" />
+                <span className="mt-px">{isFrameAdded ? 'Frame Added' : 'Add Frame'}</span>
               </button>
 
               <button
                 onClick={openShareUrl}
                 className="flex flex-row-reverse gap-1 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
               >
-                <ShareIcon className="h-5 w-5" /><span className="mt-[2px]">Share</span>
+                <ShareIcon className="h-4 w-4" /><span className="mt-px">Share</span>
               </button>
 
             </div>
