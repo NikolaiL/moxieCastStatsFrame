@@ -441,7 +441,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
 
   return (
     <div className="w-full mx-auto py-4 px-4 relative dark:bg-gray-900">
-        <div className="sticky top-0 left-0 right-0 px-2 pt-4 pb-1 bg-white dark:bg-gray-900 z-10">
+        <div className="sticky top-0 left-0 right-0 pt-4 pb-1 bg-white dark:bg-gray-900 z-10">
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <Image 
