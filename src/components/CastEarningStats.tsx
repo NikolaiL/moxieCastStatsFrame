@@ -346,6 +346,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
       const ctx = await sdk.context;
       setContext(ctx);
       setIsFrameAdded(ctx?.client?.added ?? false);
+      //setIsFrameAdded(true);
       sdk.actions.ready();
     };
     if (sdk && !isSDKLoaded) {
@@ -419,6 +420,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
       
       // Check if Following array exists and has items
       setIsFollowing(!!data.data?.SocialFollowings?.Following?.length || userFid === 366713);
+      //setIsFollowing(false);
       console.log('Following status:', !!data.data?.SocialFollowings?.Following?.length);
     } catch (error) {
       console.error('Error checking follow status:', error);
@@ -471,27 +473,28 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
               ) : (
                 <button
                   onClick={openFollowUrl}
-                  className="text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
+                  className="flex flex-row-reverse gap-1 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
                 >
-                  <UserPlusIcon className="h-5 w-5" />
+                  <UserPlusIcon className="h-5 w-5" /><span className="mt-[2px]">Follow</span>
                 </button>
               )}
 
               <button
                 onClick={addFrame}
                 disabled={isFrameAdded}
-                className={`flex flex-row-reverse gap-2 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full ${
+                className={`flex flex-row-reverse gap-1 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full ${
                   isFrameAdded ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                <PlusCircleIcon className="h-5 w-5" /> Add Frame
+                <PlusCircleIcon className="h-5 w-5" />
+                <span className="mt-[2px]">{isFrameAdded ? 'Frame Added' : 'Add Frame'}</span>
               </button>
 
               <button
                 onClick={openShareUrl}
-                className="flex flex-row-reverse gap-2 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
+                className="flex flex-row-reverse gap-1 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
               >
-                <ShareIcon className="h-5 w-5" /> Share
+                <ShareIcon className="h-5 w-5" /><span className="mt-[2px]">Share</span>
               </button>
 
             </div>
