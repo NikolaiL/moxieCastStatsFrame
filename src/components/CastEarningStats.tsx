@@ -7,10 +7,12 @@ import {
   useWaitForTransactionReceipt
 } from "wagmi";
 import Image from "next/image";
+import { UserPlusIcon, ShareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 
 import { Button } from "~/components/ui/Button";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { LoadingSpinner } from '~/components/ui/LoadingSpinner';
+import { LoadingDots } from '~/components/ui/LoadingDots';
 
 
 interface Cast {
@@ -440,75 +442,77 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
   return (
     <div className="w-full mx-auto py-4 px-4 relative dark:bg-gray-900">
         <div className="sticky top-0 left-0 right-0 px-2 pt-4 pb-1 bg-white dark:bg-gray-900 z-10">
-          <div className="flex items-center gap-2">
-            <Image 
-              src={context?.user.pfpUrl ?? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'} 
-              alt={context?.user.username ?? ''} 
-              width={80} 
-              height={80}
-              className="flex-none rounded-full w-[80px] h-[80px] object-cover" 
-            />
-            <div className="flex-1 flex-col gap-0">
+          <div className="flex justify-between">
+            <div className="flex items-center gap-1">
+              <Image 
+                src={context?.user.pfpUrl ?? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'} 
+                alt={context?.user.username ?? ''} 
+                width= {60} 
+                height={60}
+                className={`flex-none rounded-full object-cover transition-all duration-200 w-[60px] h-[60px]}`}
+              />
+              <div className="flex-1 flex-col gap-0">
                 <div className="text-2xl font-bold m-0">
-                    @{context?.user.username}
-                    {/* <a href={`https://warpcast.com/${context?.user.username}`} target="_blank">
-                        <span className="text-xs ml-2 align-super text-purple-500">W</span>
-                    </a> */}
+                  @{context?.user.username}
                 </div>
                 <div className="text-normal text-gray-500 m-0">{context?.user.fid}</div>
+              </div>
             </div>
-            
-          </div>
-          <div className="flex flex-row gap-2 mt-2">
-            <Button 
-              onClick={openFollowUrl} 
-              disabled={isFollowing}
-              className={`hover:bg-purple-200 dark:hover:bg-gray-800 basis-1/2 border-2 font-bold border-purple-900 dark:border-purple-700 text-purple-900 dark:text-purple-500 px-2 py-2 rounded-md text-xs ${
-                isFollowing ? 'opacity-50 cursor-not-allowed' : ''
-              }`}>
+
+            <div className="flex flex-col gap-2 text-xs">
               {isCheckingFollow ? (
-                <div className="flex justify-center">
-                  <div className="animate-pulse flex gap-1">
-                    <div className="w-1 h-1 rounded-full bg-purple-500 animate-bounce [animation-delay:-0.3s]"></div>
-                    <div className="w-1 h-1 rounded-full bg-purple-500 animate-bounce [animation-delay:-0.15s]"></div>
-                    <div className="w-1 h-1 rounded-full bg-purple-500 animate-bounce"></div>
-                  </div>
+                <div className="flex justify-center p-1">
+                  <LoadingDots color="purple" />
                 </div>
               ) : isFollowing ? (
-                'Thank you for Following!'
+                <div className="text-purple-900 dark:text-purple-500">
+                  Thank you for following!
+                </div>
               ) : (
-                'Follow @nikolaiii'
+                <button
+                  onClick={openFollowUrl}
+                  className="p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
+                >
+                  <UserPlusIcon className="h-5 w-5" />
+                </button>
               )}
-            </Button>
-            <Button
+
+              <button
+                onClick={addFrame}
+                disabled={isFrameAdded}
+                className={`flex flex-row-reverse gap-2 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full ${
+                  isFrameAdded ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                <PlusCircleIcon className="h-5 w-5" /> Add Frame
+              </button>
+
+              <button
                 onClick={openShareUrl}
-                className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-xs">
-              Share
-            </Button>
-            <Button
-              onClick={addFrame}
-              disabled={isFrameAdded}
-              className={`hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-xs ${
-                isFrameAdded ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              {isFrameAdded ? 'Frame Added' : 'Add Frame'}
-            </Button>
+                className="flex flex-row-reverse gap-2 p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
+              >
+                <ShareIcon className="h-5 w-5" /> Share
+              </button>
+
+            </div>
           </div>
+
+          {/* DEGEN buttons */}
           <div className="flex flex-row gap-2 mt-2 pb-4">
             <Button
-                onClick={sendTx}
-                disabled={!isConnected || isSendTxPending}
-                isLoading={isSendTxPending}
-                className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
+              onClick={sendTx}
+              disabled={!isConnected || isSendTxPending}
+              isLoading={isSendTxPending}
+              className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Send 100 $degen
             </Button>
             <Button
-                onClick={openTipUrl}
-                className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
+              onClick={openTipUrl}
+              className="hover:bg-purple-700 dark:hover:bg-purple-600 hover:border-purple-700 dark:hover:border-purple-600 basis-1/2 w-full border-2 font-bold border-purple-900 dark:border-purple-700 bg-purple-900 dark:bg-purple-700 font-bold text-white px-2 py-2 rounded-md text-sm">
               Tip 100 $degen
             </Button>
           </div>
+
           {isSendTxError && renderError(sendTxError)}
           {txHash && (
             <div className="mt-2 text-xs overflow-x-hidden">
@@ -576,11 +580,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   <td className="px-1 text-right text-lg">
                     {(isLoadingDegenTips && cast.totalDegenTips === null) ? (
                       <div className="flex justify-end">
-                        <div className="animate-pulse flex gap-1">
-                          <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.3s]"></div>
-                          <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce [animation-delay:-0.15s]"></div>
-                          <div className="w-1 h-1 rounded-full bg-gray-500 animate-bounce"></div>
-                        </div>
+                        <LoadingDots color="gray" />
                       </div>
                     ) : cast.totalDegenTips && cast.totalDegenTips > 0 ? (
                       <span>
