@@ -464,7 +464,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
             <div className="mt-1 absolute right-0 top-0 flex flex-col gap-1 text-xs">
               {isCheckingFollow ? (
                 <div className="flex justify-center p-3">
-                  <LoadingDots color="purple" />
+                  <LoadingDots className="bg-purple-500" />
                 </div>
               ) : isFollowing ? (
                 <div className="text-purple-900 p-1 dark:text-purple-500">
@@ -583,7 +583,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                   <td className="px-1 text-right text-lg">
                     {(isLoadingDegenTips && cast.totalDegenTips === null) ? (
                       <div className="flex justify-end">
-                        <LoadingDots color="gray" />
+                        <LoadingDots className="bg-gray-500" />
                       </div>
                     ) : cast.totalDegenTips && cast.totalDegenTips > 0 ? (
                       <span>
