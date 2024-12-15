@@ -449,7 +449,7 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
                 alt={context?.user.username ?? ''} 
                 width= {60} 
                 height={60}
-                className={`flex-none rounded-full object-cover transition-all duration-200 w-[60px] h-[60px]}`}
+                className='flex-none rounded-full object-cover transition-all duration-200 w-[60px] h-[60px]'
               />
               <div className="flex-1 flex-col gap-0">
                 <div className="text-2xl font-bold m-0">
