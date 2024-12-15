@@ -459,19 +459,19 @@ export default function CastEarningStats({ title = "Cast Earning Stats by @nikol
               </div>
             </div>
 
-            <div className="mt-1 absolute right-0 top-0 flex flex-col gap-2 text-xs">
+            <div className="mt-1 absolute right-0 top-0 flex flex-col gap-1 text-xs">
               {isCheckingFollow ? (
-                <div className="flex justify-center p-1">
+                <div className="flex justify-center p-3">
                   <LoadingDots color="purple" />
                 </div>
               ) : isFollowing ? (
-                <div className="text-purple-900 dark:text-purple-500">
+                <div className="text-purple-900 p-1 dark:text-purple-500">
                   Thank you for following!
                 </div>
               ) : (
                 <button
                   onClick={openFollowUrl}
-                  className="p-1 text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
+                  className="text-purple-900 dark:text-purple-500 hover:bg-purple-100 dark:hover:bg-gray-800 rounded-full"
                 >
                   <UserPlusIcon className="h-5 w-5" />
                 </button>
